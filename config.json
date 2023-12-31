@@ -1,0 +1,24 @@
+{
+    "Logger": {
+        "Level": "Debug" 
+    },
+    "Server": {
+        "Port": "8080",
+        "Capacity": "30",
+        "Timeout": "-1"
+    },
+    "DumpFields": {
+        "ConnectStats": "true",
+        "DiskStats": "true",
+        "DiskUsage": "true",
+        "LoadAverage": "true",
+        "LoadCPU": "true",
+        "LoadDisks": "true",
+        "NetworkTopTalkers": {
+            "Enable": "true",
+            "TCP": "true",
+            "UDP": "true",
+            "ICMP": "true"
+        }
+    }
+}

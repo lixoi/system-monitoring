@@ -1,0 +1,101 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "./;api";
+
+message SystemDump {
+    string id = 1;
+    LoadAverage l_a = 2;
+    LoadCPU l_c = 3;
+    DiskStats d_s = 4;
+    repeated LoadDisk l_d = 5;
+    repeated DiskUsage d_u = 6;
+    TopTalkers t_t = 7;
+    ConnectStats c_s = 8;
+}
+
+message LoadAverage {
+    double avg_one_min = 1;
+    double avg_five_min = 2;
+    double avg_fifteen_min = 3;
+}
+
+message LoadCPU {
+    double user_mode = 1;
+    double system_mode = 2;
+    double idle = 3;
+}
+
+message DiskStats {
+    double io_time = 1; 
+    double io_in_progress = 2;
+    double weighted_io = 3;
+}
+
+message LoadDisk {
+    string disk_device = 1;
+    double tps = 2;
+    double kb_rps = 3;
+    double kb_wps = 4;
+    double kb_ps = 5;
+}
+
+message DiskUsage {
+    string file_system = 1;
+    uint64 used = 2;
+    uint64 use = 3;
+    uint64 iused = 4;
+    uint64 iuse = 5;
+}
+
+message TopTalkers {
+    repeated TopTalkersProtocol ttp = 1;
+    repeated TopTalkersTraffic  ttt = 2;
+}
+
+message ConnectStats {
+    repeated ListeningSocket ls = 1;
+    repeated Connect conn = 2;
+}
+
+message TopTalkersProtocol {
+    string  protocol = 1;
+    uint32  bytes = 2;
+    uint32  rate = 3;
+}
+
+message TopTalkersTraffic {
+    string  source = 1;
+    string  distination = 2;
+    string  protocol = 3;
+    uint32  bps = 4;
+}
+
+message ListeningSocket {
+    string  protocol = 1;
+    uint32  port = 2;
+    uint32  pid = 3;
+    string  user = 4;
+    string  command = 5;
+}
+
+message Connect {
+    string  state = 1;
+    uint32  number = 2;
+}
+
+message GetSystemDumpRequest {
+    uint32 n = 1;
+    uint32 m = 2;
+}
+
+message GetSystemDumpResponse {
+    SystemDump system_dump = 1;
+}
+
+service SystemStatistics {
+    rpc GetSystemDump(GetSystemDumpRequest) returns (GetSystemDumpResponse) {}
+
+    rpc StreamSystemDump(GetSystemDumpRequest) returns (stream GetSystemDumpResponse) {}
+}
